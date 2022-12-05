@@ -5,15 +5,16 @@ import App from './App.vue'
 import router from './router'
 
 import './assets/main.css'
-import 'highlight.js/styles/monokai.css';
 
 const app = createApp(App)
 
-import gnasEditor from '../package/gnas-editor';
-app.use(gnasEditor as any);
-
+import GnasEditor from '../package/gnas-editor/index'
+import ArcoVue from '@arco-design/web-vue';
+import '@arco-design/web-vue/dist/arco.css';
 
 app.use(createPinia())
 app.use(router)
+app.use(GnasEditor)
+app.use(ArcoVue);
 
 app.mount('#app')

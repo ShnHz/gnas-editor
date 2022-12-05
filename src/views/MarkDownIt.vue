@@ -1,6 +1,7 @@
 <template>
-  <MarkdownIt :source="source" />
+  <div class="about">
+    <MarkdownIt  />
+  </div>
 </template>
-<script setup lang="ts">
-const source = '# 15315'
+<script setup>
 </script>

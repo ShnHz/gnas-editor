@@ -1,5 +1,5 @@
-<script lang="ts">
-import { h, onMounted, onUpdated, ref } from 'vue';
+<script>
+import { h, onMounted, onUpdated, ref, watch } from 'vue';
 
 import MarkdownIt from 'markdown-it';
 import MarkdownItAbbr from 'markdown-it-abbr';
@@ -75,43 +75,46 @@ const props = {
 };
 
 export default {
-  name: 'MarkdownIt',
+  name: 'MarkdownItView',
   props,
   setup(props) {
-    const md = ref();
-    const renderMarkdown = () => {
-      let markdown = new MarkdownIt()
-        .use(MarkdownItAbbr)
-        .use(MarkdownItAnchor, props.anchor)
-        .use(MarkdownItDeflist)
-        .use(MarkdownItEmoji, props.emoji)
-        .use(MarkdownItFootnote)
-        .use(MarkdownItHighlightjs, props.highlight)
-        .use(MarkdownItIns)
-        .use(MarkdownItMark)
-        .use(MarkdownItSub)
-        .use(MarkdownItSup)
-        .use(MarkdownItTasklists, props.tasklists)
-        .use(MarkdownItTOC, props.toc)
-        .set({
-          breaks: props.breaks,
-          html: props.html,
-          langPrefix: props.langPrefix,
-          linkify: props.linkify,
-          quotes: props.quotes,
-          typographer: props.typographer,
-          xhtmlOut: props.xhtmlOut
-        });
-
-      props.plugins.forEach((item: any) => {
-        markdown.use(item.plugin, item.options);
+    let markdown = new MarkdownIt()
+      .use(MarkdownItAbbr)
+      .use(MarkdownItAnchor, props.anchor)
+      .use(MarkdownItDeflist)
+      .use(MarkdownItEmoji, props.emoji)
+      .use(MarkdownItFootnote)
+      .use(MarkdownItHighlightjs, props.highlight)
+      .use(MarkdownItIns)
+      .use(MarkdownItMark)
+      .use(MarkdownItSub)
+      .use(MarkdownItSup)
+      .use(MarkdownItTasklists, props.tasklists)
+      .use(MarkdownItTOC, props.toc)
+      .set({
+        breaks: props.breaks,
+        html: props.html,
+        langPrefix: props.langPrefix,
+        linkify: props.linkify,
+        quotes: props.quotes,
+        typographer: props.typographer,
+        xhtmlOut: props.xhtmlOut
       });
 
+    props.plugins.forEach((item) => {
+      markdown.use(item.plugin, item.options);
+    });
+
+    const md = ref();
+    const renderMarkdown = () => {
       md.value = markdown.render(props.source);
     };
 
     onMounted(() => renderMarkdown());
     onUpdated(() => renderMarkdown());
+    watch(() => props.source, (value) => {
+      renderMarkdown()
+    })
 
     return () => h('div', { innerHTML: md.value });
   }
