@@ -24,8 +24,12 @@ export default {
     },
     data() {
         return {
-            data: ''
+            data: `123 \n+ 1 \n+ 2`
         }
+    },
+    mounted(){
+        this.$refs.editorMain.innerText = this.data
+        this.$emit('change',this.data)
     },
     methods:{
         handleChange(){

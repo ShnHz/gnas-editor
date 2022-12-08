@@ -1,0 +1,126 @@
+.mark-down-it-view {
+    >*:first-child {
+        margin-top: 0;
+    }
+
+    >h1,
+    >h2,
+    >h3,
+    >h4,
+    >h5,
+    >h6 {
+        &:first-child {
+            padding-top: 1.6rem;
+        }
+    }
+
+    h2 {
+        font-size: 1.8rem;
+        border-bottom: 0;
+    }
+
+    h3 {
+        padding-bottom: 12px;
+        font-size: 24px;
+        font-weight: 400;
+        border-bottom: 1px solid #ececec;
+    }
+
+    h4 {
+        font-size: 18px;
+        padding-bottom: 12px;
+        line-height: 1.5;
+        font-weight: 500;
+    }
+
+    h5 {
+        padding-bottom: 12px;
+        font-size: 16px;
+    }
+
+    h6 {
+        margin: 10px 0 20px;
+        padding: 0;
+        font-size: 14px;
+        color: #5e6d82;
+        line-height: 1.5em;
+        font-weight: 400;
+    }
+
+    p {
+        margin: 22px 0;
+        line-height: inherit;
+
+        &.date {
+            margin-top: 8px !important;
+            color: #909399;
+            font-size: 14px;
+        }
+
+        img {
+            display: block;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    }
+
+    ul {
+        margin: 22px 0;
+        padding-left: 28px;
+
+        li {
+            list-style-type: disc;
+        }
+    }
+
+    strong {
+        font-weight: 700;
+    }
+
+    a {
+        font-weight: 400;
+        color: #0269c8;
+        border-bottom: 1px solid #d1e9ff;
+    }
+
+    blockquote {
+        color: #666;
+        padding: 1px 23px;
+        margin: 22px 0;
+        border-left: 4px solid #cbcbcb;
+        background-color: #f8f8f8;
+
+        >p {
+            margin: 10px 0;
+        }
+
+        &.small {
+            font-size: 12px;
+        }
+    }
+
+    >table {
+        display: inline-block;
+        font-size: 14px;
+        width: auto;
+        max-width: 100%;
+        overflow: auto;
+        border: 1px solid #f6f6f6;
+
+        thead {
+            background: #f6f6f6;
+            color: #000;
+            text-align: left;
+        }
+
+        td,
+        th {
+            padding: 0.4rem 0.6rem;
+            line-height: 2rem;
+        }
+
+        td {
+            min-width: 10rem;
+        }
+    }
+}

@@ -36,6 +36,10 @@ li {
   list-style: none;
 }
 
+input{
+  font-size: inherit;
+}
+
 input[type=radio] {
   cursor: pointer
 }
@@ -54,7 +58,7 @@ a:active,
 a:hover,
 a:visited,
 a:link {
-  color: #333;
+  color: inherit;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.2s linear;
@@ -70,5 +74,5 @@ html {
   padding: 0;
   width: 100%;
   height: 100%;
-  color: #282828;
+  color: #333;
 }

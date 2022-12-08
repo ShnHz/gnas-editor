@@ -108,6 +108,7 @@ export default {
     const md = ref();
     const renderMarkdown = () => {
       md.value = markdown.render(props.source);
+      console.log(md.value)
     };
 
     onMounted(() => renderMarkdown());
@@ -116,7 +117,7 @@ export default {
       renderMarkdown()
     })
 
-    return () => h('div', { innerHTML: md.value });
+    return () => h('div', { innerHTML: md.value, class: "mark-down-it-view" });
   }
 };
 </script>

@@ -71,7 +71,7 @@ export default {
   },
   data() {
     return {
-      source: ''
+      source: ``
     }
   },
   methods: {
