@@ -1,8 +1,9 @@
 <template>
     <div class="editor-wrap" v-if="(type == 'markdownit')">
-        <button @click="selectionChange">test</button>
+        <button @click="selectionChange('h1')">test</button>
         <div ref="editorMain" class="editor-main-wrap" contentEditable="true" :style="{ height: height, width: width }"
-            @keyup="handleChange"></div>
+            @keyup="handleChange">
+        </div>
     </div>
 </template>
 <script>
@@ -40,24 +41,52 @@ export default {
             this.data = this.editor.innerText
             this.$emit('change', this.data)
         },
-        selectionChange() {
-            let selectionStr = getSelection()
-            let replaceSelection = this.getReplaceSelection(selectionStr)
+        selectionChange(type) {
+            let { selectionStr, selection } = this.getSelection()
+            if (selectionStr.trim() != "") {
+                let replaceSelection = this.replaceSelection(type, selectionStr)
+
+                this.handleChange()
+            }
         },
         // 获取选中值
         getSelection() {
-            let selectionStr = null
-            if (window.getSelection) {
-                selectionStr = window.getSelection().toString()
+            let selection = null
+            if (window.getSelection || document.getSelection()) {
+                selection = (window.getSelection() || document.getSelection())
             } else if (document.selection) {
-                selectionStr = document.selection.toString()
+                selection = document.selection
             }
 
-            return selectionStr
+            return {
+                selection: selection,
+                selectionStr: selection.toString()
+            }
         },
         // 获取替换值
-        getReplaceSelection(selectionStr){
-            return selectionStr
+        replaceSelection(type, selectionStr) {
+            switch (type) {
+                case 'h1':
+                    document.execCommand('insertText', false, `# ${selectionStr}`)
+                    break
+                case 'h2':
+                    document.execCommand('insertText', false, `##${selectionStr}`)
+                    break
+                case 'h3':
+                    document.execCommand('insertText', false, `###${selectionStr}`)
+                    break
+                case 'h4':
+                    document.execCommand('insertText', false, `####${selectionStr}`)
+                    break
+                case 'h5':
+                    document.execCommand('insertText', false, `#####${selectionStr}`)
+                    break
+                case 'h6':
+                    document.execCommand('insertText', false, `######${selectionStr}`)
+                    break
+                default:
+                    return selectionStr
+            }
         }
     }
 }

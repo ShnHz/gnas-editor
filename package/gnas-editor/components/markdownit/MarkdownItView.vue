@@ -108,7 +108,6 @@ export default {
     const md = ref();
     const renderMarkdown = () => {
       md.value = markdown.render(props.source);
-      console.log(md.value)
     };
 
     onMounted(() => renderMarkdown());
