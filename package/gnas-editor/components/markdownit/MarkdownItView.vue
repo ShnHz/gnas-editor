@@ -1,6 +1,8 @@
-<script>
-import { h, onMounted, onUpdated, ref, watch } from 'vue';
-
+<template>
+  <div class="mark-down-it-view" v-html="md">
+  </div>
+</template>
+<script setup name="MarkdownItView">
 import MarkdownIt from 'markdown-it';
 import MarkdownItAbbr from 'markdown-it-abbr';
 import MarkdownItAnchor from 'markdown-it-anchor';
@@ -15,7 +17,7 @@ import MarkdownItSup from 'markdown-it-sup';
 import MarkdownItTasklists from 'markdown-it-task-lists';
 import MarkdownItTOC from 'markdown-it-toc-done-right';
 
-const props = {
+const props = defineProps({
   anchor: {
     type: Object,
     default: () => ({})
@@ -72,51 +74,45 @@ const props = {
     type: Boolean,
     default: false
   }
+});
+
+let markdown = new MarkdownIt()
+  .use(MarkdownItAbbr)
+  .use(MarkdownItAnchor, props.anchor)
+  .use(MarkdownItDeflist)
+  .use(MarkdownItEmoji, props.emoji)
+  .use(MarkdownItFootnote)
+  .use(MarkdownItHighlightjs, props.highlight)
+  .use(MarkdownItIns)
+  .use(MarkdownItMark)
+  .use(MarkdownItSub)
+  .use(MarkdownItSup)
+  .use(MarkdownItTasklists, props.tasklists)
+  .use(MarkdownItTOC, props.toc)
+  .set({
+    breaks: props.breaks,
+    html: props.html,
+    langPrefix: props.langPrefix,
+    linkify: props.linkify,
+    quotes: props.quotes,
+    typographer: props.typographer,
+    xhtmlOut: props.xhtmlOut
+  });
+
+props.plugins.forEach((item) => {
+  markdown.use(item.plugin, item.options);
+});
+
+const md = ref();
+const renderMarkdown = () => {
+  md.value = markdown.render(props.source);
 };
 
-export default {
-  name: 'MarkdownItView',
-  props,
-  setup(props) {
-    let markdown = new MarkdownIt()
-      .use(MarkdownItAbbr)
-      .use(MarkdownItAnchor, props.anchor)
-      .use(MarkdownItDeflist)
-      .use(MarkdownItEmoji, props.emoji)
-      .use(MarkdownItFootnote)
-      .use(MarkdownItHighlightjs, props.highlight)
-      .use(MarkdownItIns)
-      .use(MarkdownItMark)
-      .use(MarkdownItSub)
-      .use(MarkdownItSup)
-      .use(MarkdownItTasklists, props.tasklists)
-      .use(MarkdownItTOC, props.toc)
-      .set({
-        breaks: props.breaks,
-        html: props.html,
-        langPrefix: props.langPrefix,
-        linkify: props.linkify,
-        quotes: props.quotes,
-        typographer: props.typographer,
-        xhtmlOut: props.xhtmlOut
-      });
-
-    props.plugins.forEach((item) => {
-      markdown.use(item.plugin, item.options);
-    });
-
-    const md = ref();
-    const renderMarkdown = () => {
-      md.value = markdown.render(props.source);
-    };
-
-    onMounted(() => renderMarkdown());
-    onUpdated(() => renderMarkdown());
-    watch(() => props.source, (value) => {
-      renderMarkdown()
-    })
-
-    return () => h('div', { innerHTML: md.value, class: "mark-down-it-view" });
-  }
-};
+onMounted(() => {
+  renderMarkdown()
+});
+onUpdated(() => renderMarkdown());
+watch(() => props.source, (value) => {
+  renderMarkdown()
+})
 </script>

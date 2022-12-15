@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <MarkdownIt  />
+    <MarkdownIt />
   </div>
 </template>
 <script setup>
