@@ -1,6 +1,16 @@
 <template>
     <div class="editor-wrap" v-if="(type == 'markdownit')">
-        <button @click="selectionChange('h1')">test</button>
+        <button @click="selectionChange('h1')">h1</button>
+        <button @click="selectionChange('h2')">h2</button>
+        <button @click="selectionChange('h3')">h3</button>
+        <button @click="selectionChange('h4')">h4</button>
+        <button @click="selectionChange('h5')">h5</button>
+        <button @click="selectionChange('h6')">h6</button>
+        <button @click="selectionChange('quote')">quote</button>
+        <button @click="selectionChange('code')">code</button>
+        <button @click="selectionChange('b')">b</button>
+        <button @click="selectionChange('em')">em</button>
+        <button @click="selectionChange('strikethrough')">strikethrough</button>
         <div ref="editor" class="editor-main-wrap" contentEditable="true" :style="{ height: height, width: width }"
             @keyup="handleChange">
         </div>
@@ -26,7 +36,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['change'])
 
-const source = ref('123 \n+ 123123')
+const source = ref('')
 const editor = ref(null)
 
 onMounted(() => {
@@ -69,19 +79,36 @@ const replaceSelection = (type, selectionStr) => {
             document.execCommand('insertText', false, `# ${selectionStr}`)
             break
         case 'h2':
-            document.execCommand('insertText', false, `##${selectionStr}`)
+            document.execCommand('insertText', false, `## ${selectionStr}`)
             break
         case 'h3':
-            document.execCommand('insertText', false, `###${selectionStr}`)
+            document.execCommand('insertText', false, `### ${selectionStr}`)
             break
         case 'h4':
-            document.execCommand('insertText', false, `####${selectionStr}`)
+            document.execCommand('insertText', false, `#### ${selectionStr}`)
             break
         case 'h5':
-            document.execCommand('insertText', false, `#####${selectionStr}`)
+            document.execCommand('insertText', false, `##### ${selectionStr}`)
             break
         case 'h6':
-            document.execCommand('insertText', false, `######${selectionStr}`)
+            document.execCommand('insertText', false, `###### ${selectionStr}`)
+            break
+        case 'quote':
+            document.execCommand('insertText', false, `> ${selectionStr}`)
+            break
+        case 'code':
+            document.execCommand('insertText', false, `\`\`\`
+${selectionStr}
+\`\`\``)
+            break
+        case 'b':
+            document.execCommand('insertText', false, `***${selectionStr}***`)
+            break
+        case 'em':
+            document.execCommand('insertText', false, `*${selectionStr}*`)
+            break
+        case 'strikethrough':
+            document.execCommand('insertText', false, `~~${selectionStr}~~`)
             break
         default:
             return selectionStr
